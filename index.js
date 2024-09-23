@@ -6,7 +6,13 @@ const connectDB = require('./config/db');
 const cors = require('cors');
 const app = express();
 connectDB();
-app.use(cors({ credentials: true, origin: 'https://onsight.netlify.app' })); // CORS 설정
+
+const allowedOrigins =
+  process.env.NODE_ENV === 'production'
+    ? ['https://onsight-climbing.netlify.app']
+    : ['http://localhost:3000'];
+
+app.use(cors({ credentials: true, origin: allowedOrigins })); // CORS 설정
 app.use(express.json());
 
 const userController = require('./controllers/userController');
